@@ -89,10 +89,32 @@ Para optimizarlo a largo plazo se podrían aplicar **Instancias Reservadas** si 
 
 ---
 
+## Nivel Avanzado
+
+### A1. Automatización del Despliegue con AWS CLI
+
+Se ha completado el script en Bash (`scripts/desplegar.sh`) siguiendo la plantilla oficial para automatizar de forma desatendida el aprovisionamiento de la infraestructura web:
+- Consulta dinámica del identificador más reciente de la AMI de Amazon Linux 2023 mediante AWS Systems Manager (`aws ssm get-parameters`).
+- Creación de un Security Group dedicado (`libreria-web-cli-sg`) en `libreria-vpc`.
+- Apertura del puerto 80 (HTTP) para todo el tráfico (`0.0.0.0/0`) y del puerto 22 (SSH) restringido exclusivamente a mi IP pública (`86.127.225.132/32`).
+- Lanzamiento de la instancia EC2 `libreria-web-cli` (`t3.micro`) en la subred pública asociada al par de claves `vockey` e inyección del script de inicio `user-data1.sh`.
+- Espera activa con `aws ec2 wait instance-running` y obtención de la IP pública asignada.
+
+#### Comprobación de la ejecución del script:
+![Salida de la ejecución de desplegar.sh](img/avanzado-terminal.png)
+
+#### Comprobación del servidor web desplegado por CLI:
+![Servidor CLI activo en el navegador](img/avanzado-web-navegador.png)
+
+---
+
 ## Uso de Inteligencia Artificial
-En el desarrollo de esta práctica se ha utilizado un asistente de IA como apoyo técnico y de aprendizaje:
+En el desarrollo de esta práctica se ha utilizado un asistente de IA como apoyo técnico y de resolución de incidencias:
 1. **Herramienta:** Asistente de IA (Gemini).
 2. **Prompts útiles:**
    - *"¿Por qué al ejecutar el bucle curl contra web.libreria.lab solo me responde el servidor 1 y cómo puedo verificar que el balanceo ponderado de Route 53 funciona?"*
-3. **Propuesta incorrecta detectada y corrección:**
-   - La IA sugirió inicialmente presupuestar instancias `t2.micro` en la calculadora de costes para el nivel medio. Al contrastarlo con el guion oficial de la práctica (paso B3 y M1), detecté que el requisito explícito era usar instancias `t3.micro`. Se corrigió la configuración en la AWS Pricing Calculator para seleccionar `t3.micro` con volúmenes gp3.
+   - *"¿Cómo debo rellenar los bloques TODO del script desplegar.sh respetando la estructura oficial y los comandos de la guía de la terminal de AWS?"*
+3. **Propuestas incorrectas detectadas y corrección:**
+   - **Costes:** La IA sugirió inicialmente presupuestar instancias `t2.micro` en la calculadora de costes para el nivel medio. Se contrastó con los requisitos oficiales y se corrigió a `t3.micro` con volúmenes gp3.
+   - **Parámetros redundantes en CLI:** La IA sugirió añadir parámetros manuales como `> /dev/null` o cambiar el comando de SSM por `describe-images`. Se descartó esa modificación para mantener la plantilla original de la profesora intacta, identificando que el entorno ideal para ejecutar sin problemas de conversión de rutas de Windows era AWS CloudShell.
+
