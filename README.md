@@ -21,3 +21,12 @@ Se ha desplegado la instancia EC2 `libreria-web` (`t3.micro`) sobre Amazon Linux
 A través del script de *User Data*, el servidor instaló e inició Nginx de forma desatendida, sirviendo la web corporativa de la librería:
 
 ![Web de la librería activa en el navegador](img/b3-web-navegador.png)
+
+### B4. Cálculo de Costes
+Se ha realizado la estimación de costes con **AWS Pricing Calculator** para mantener la instancia `libreria-web` (`t3.micro` bajo demanda con disco EBS gp3 en la región `us-east-1`) encendida 24/7 (730 horas/mes):
+
+- **Coste mensual estimado:** 8,23 USD/mes.
+- **Enlace a la estimación pública:** [Estimación AWS Pricing Calculator](https://calculator.aws/#/estimate?id=fc3b379bd28c6dae67edce243333f34138e9bce6)
+
+**Optimización de costes:**
+Para abaratar este servicio se podría programar el apagado automático de la máquina fuera del horario laboral de la librería mediante AWS Lambda o Instance Scheduler.
