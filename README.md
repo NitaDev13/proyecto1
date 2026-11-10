@@ -1,6 +1,9 @@
 # proyecto1
 Proyecto 1: Despliegue de infraestructura web y alta disponibilidad en AWS con CLI y Route 53 (2º DAW - Nube Pública)
 
+## Diagrama de la Arquitectura
+![Diagrama de Arquitectura AWS](img/diagrama-arquitectura.png)
+
 ## Nivel Básico
 
 ### B1. Configuración de Red
